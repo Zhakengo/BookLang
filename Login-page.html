@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    <title>Login Page</title>
+    <style>
+        *{
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: "Poppins", sans-serif;
+        }
+        body{
+            background: url("Akatsuky.webp") no-repeat;
+            background-size: cover; 
+            background-position:unset;
+        }
+
+        /*Header*/
+        header{
+            width:100%;
+            background-color: rgb(0, 128, 255); 
+            display: flex;
+            justify-content: center;
+        }
+        .header-list1{
+            display: flex;
+            width: 100%;
+            margin-right: 10%;
+            justify-content:right;
+            padding-right: 5%;
+            padding-top: 12px;
+            padding-bottom: 12px;
+        }
+        .header-list1 li{
+            margin-left: 5%;
+            list-style: none;
+            padding-top: 4px;
+        }
+        .header-list1 li a{
+            text-decoration: none;
+            color: #fff;
+            font-weight: lighter;
+        }
+        .header-list2{
+            display: flex;
+            width: 100%;   
+            justify-content:left;
+            padding-left: 10%;
+            padding-top: 12px;
+            padding-bottom: 12px;
+        }
+        .header-list2 li{
+            margin-left: 1px;
+            list-style: none;   
+        }
+        .header-list2 li a{
+            text-decoration: none;
+            color: #fff;
+            font-weight: bolder;
+            padding-right: 5px;
+            padding-left: 5px;
+            transition: 0.2s
+        }
+        .header-list2 button{
+            height: 100%;
+            border-radius: 3px;
+            border: none;
+            background-color: rgb(0, 128, 255);
+            transition: 0.3s;
+        }
+        .header-list2 button:hover{
+            background-color: #fff;
+        }
+        .header-list2 button a:hover{
+            color: rgb(0, 128, 255);;
+        }
+
+        /*Wrapper(Login)*/
+        .external-side{
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 40vh; 
+        }
+        .wrapper{  
+            margin-top: 5%;
+            width: 420px;
+            color: #fff;
+            background-color: transparent;
+            border: solid 2px rgba(255, 255, 255, .2);
+            backdrop-filter: blur(20px);
+            box-shadow: 0 0 10px rgba(0, 0, 0, .2);
+            border-radius: 5px;
+            padding: 30px 40px; 
+        }
+        .wrapper h1{
+            font-size: 36px;
+            text-align: center;
+        }
+        .wrapper p{
+            text-align: center;
+            margin-top: 10px;
+        }
+        .wrapper .input-box{
+            width: 100%;
+            height: 50px;
+            margin: 30px 0; 
+            color: #fff;
+            position: relative;
+        }
+        .input-box p{
+            text-align:left;
+            margin-bottom: 5px;
+            font-size: 90%;
+        }
+        .input-box input{
+            width: 100%;
+            height: 100%;
+            background: transparent;
+            border: none;
+            outline: none;
+            border: solid 2px rgba(255,255,255, .2);
+            border-radius: 5px;
+            font-size: 16px;
+            color: #fff;
+            padding: 20px 45px 20px 15px;
+            opacity: 0.7;
+        }
+        .input-box input::placeholder{
+            color: #fff;
+        }
+        .input-box i{
+            position: absolute;
+            right: 15px;
+            top: 100%;
+            transform: translateY(-50%);
+            font-size: 20px ;
+        }
+        .wrapper .remember-forgot{
+            display: flex;
+            justify-content: space-between;
+            font-size: 14px;
+            margin: 0 0 15px;
+        }
+        .remember-forgot label input{
+            accent-color: #fff;
+            margin-right: 3px;
+        }
+
+        .wrapper .btn-google-div{
+            width: 100%;
+            padding-left: 17%;
+            padding-top: 10px;
+        }
+        .wrapper .btn-google{
+            background: #fff;
+            border: none;
+            outline: none;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, .1);
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: 600;
+            display: flex;
+            justify-content: center;
+            background-color: black;
+        }
+        .wrapper .btn-google img{
+            height: 40px;
+            padding: 5px;
+            border-top-left-radius: 5px;
+            border-bottom-left-radius: 5px;
+            border: solid 2px black;
+            background-color: #fff;
+        }
+        .wrapper .btn-google .a-sign-in{
+            margin-top: 10px;
+            padding-left: 10px;
+            padding-right: 15px;
+        }
+        .wrapper .btn-google .a-sign-in a{
+            text-decoration: none;
+            color: #fff;
+            margin-bottom: 10px;
+        }
+        .wrapper .btn{
+            width: 100%;
+            height: 45px;
+            background: #fff;
+            border: none;
+            outline: none;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, .1);
+            cursor: pointer;
+            font-size: 16px;
+            color: #333;
+            font-weight: 600;
+        }
+        .wrapper .register-link{
+            font-size: 14px;
+            text-align: center;
+            margin: 20px 0 15px;
+        }
+        .register-link p{
+            line-height: 24px;
+        }
+        .register-link p a{
+            color: #fff;
+            text-decoration: none;
+            font-weight: 600;
+        }
+        .register-link p a:hover{
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <!--Header-->
+    <header>
+        <ul class="header-list1">
+            <li><a href="#">BookLang</a></li>
+            <li><a href="#">Features</a></li>
+            <li><a href="#">Works</a></li>
+            <li><a href="#">About us</a></li>
+        </ul>
+        <ul class="header-list2">
+            <li><button><a href="#"><img src="Kazakhstan.png" style="height: 20px; padding-top: 3px;"></a></button></li>
+            <li><button><a href="Login-page.html">LOG IN</a></button></li>
+            <li><button><a href="Sign-up-page.html">SIGN UP</a></button></li>
+        </ul>
+    </header>
+
+    <!--Wrapper(Login)-->
+    <div class="external-side">
+    <div class="wrapper">
+        <form action="">
+            <h1>Login</h1>
+            <p>Welcome back! Let's get you logged in.</p>
+
+            <div class="btn-google-div">
+            <button class="btn-google"><img src="Google.png">
+                <div class="a-sign-in">
+                    <a href="#">Sign in with Google</a>
+                </div>
+            </button>
+            </div>
+
+            <div class="input-box">
+                <p>Email Address</p>
+                <input type="text" placeholder="Email Address" required>
+                <i class='bx bxs-user' ></i>
+            </div>
+            <div class="input-box">
+                <p>Password</p>
+                <input type="password" placeholder="Password" required>
+                <i class='bx bxs-lock-alt'></i>
+            </div>
+
+            <div class="remember-forgot">
+                <label><input type="checkbox">Remember me</label>
+            </div>
+
+            <button type="submit" class="btn">LOGIN</button>
+
+            <div class="register-link">
+                <p>Don't have an account?<a href="Sign-up-page.html"> Sign Up</a><br>
+                <a href="Reset-Password-page.html" style="font-weight: lighter; opacity: 0.7;">Reset your password?</a></p>
+            </div>
+        </form>
+    </div>
+    </div>
+</body>
+</html>
