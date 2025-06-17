@@ -1,0 +1,348 @@
+<!--{% extends 'pdftranslate/base.html' %}
+
+{% block title %}Review Flashcards - {{ block.super }}{% endblock %}
+
+{% block content %}
+<div class="container py-5">-->
+
+       <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}BookLand PDF Translator{% endblock %}</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.2/font/bootstrap-icons.css" rel="stylesheet">
+    <link href="{% static 'pdftranslate/css/style.css' %}" rel="stylesheet">
+</head>
+<style>
+.translation-reveal {
+    opacity: 0;
+    transform: translateY(20px);
+    transition: all 0.5s ease-out;
+}
+
+.translation-reveal.fade-in {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.translation-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.translation-box {
+    background: linear-gradient(135deg, #e8f5e9 0%, #c8e6c9 100%);
+    padding: 1.5rem 2.5rem;
+    border-radius: 20px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+    transform: translateY(0);
+    transition: transform 0.2s ease;
+}
+
+.translation-box:hover {
+    transform: translateY(-2px);
+}
+
+.translation-text {
+    color: #2e7d32;
+    font-size: 2.5rem;
+    font-weight: bold;
+    margin: 0;
+    text-shadow: 1px 1px 1px rgba(255, 255, 255, 0.5);
+}
+
+.review-btn {
+    padding: 1rem 1.5rem;
+    min-width: 120px;
+    border-radius: 15px;
+    transition: all 0.2s ease;
+    border: 2px solid;
+    background: white;
+}
+
+.btn-outline-danger {
+    color: #dc3545;
+    border-color: #dc3545;
+}
+
+.btn-outline-warning {
+    color: #ffc107;
+    border-color: #ffc107;
+}
+
+.btn-outline-success {
+    color: #28a745;
+    border-color: #28a745;
+}
+
+.btn-outline-primary {
+    color: #0d6efd;
+    border-color: #0d6efd;
+}
+
+.btn-outline-danger:hover {
+    background-color: #dc3545;
+    color: white;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(220, 53, 69, 0.2);
+}
+
+.btn-outline-warning:hover {
+    background-color: #ffc107;
+    color: black;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(255, 193, 7, 0.2);
+}
+
+.btn-outline-success:hover {
+    background-color: #28a745;
+    color: white;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(40, 167, 69, 0.2);
+}
+
+.btn-outline-primary:hover {
+    background-color: #0d6efd;
+    color: white;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(13, 110, 253, 0.2);
+}
+
+.btn span {
+    font-size: 1.25rem;
+}
+
+.btn small {
+    font-size: 0.875rem;
+}
+
+@media (max-width: 576px) {
+    .review-btn {
+        padding: 0.75rem 1rem;
+        min-width: 90px;
+    }
+    
+    .btn span {
+        font-size: 1rem;
+    }
+    
+    .btn small {
+        font-size: 0.75rem;
+    }
+    
+    .translation-text {
+        font-size: 2rem;
+    }
+    
+    .translation-box {
+        padding: 1rem 2rem;
+    }
+}
+</style>
+
+    <!-- Progress Bar -->
+    <div class="progress mb-5" style="height: 4px; background-color: #f0f0f0;">
+        <div class="progress-bar bg-success" role="progressbar" 
+             style="width: {% widthratio reviewed_today total_due 100 %}%">
+        </div>
+    </div>
+
+    <!-- Flashcard -->
+    <div class="card border-0 shadow-lg rounded-4 mx-auto" style="max-width: 700px;">
+        <div class="card-body p-5">
+            <!-- Original Word -->
+            <div class="text-center mb-5">
+                <h1 class="display-3 mb-4 fw-bold" style="color: #2c3e50;">
+                    <!--{{ flashcard.word_entry.original_text }}--> Translated Word
+                </h1>
+                <!--{% if flashcard.word_entry.translated_text %}--> 
+                    <div id="translation" style="display: none;" class="translation-reveal">
+                        <div class="translation-container mb-4">
+                            <div class="translation-box">
+                                <h2 class="translation-text">
+                                    <!--{{ flashcard.word_entry.translated_text }}--> Translated text
+                                </h2>
+                            </div>
+                        </div>
+                        <div class="d-flex justify-content-center gap-3 mt-4">
+                            <button type="button" class="btn btn-outline-info" id="examBtn">
+                                Exam
+                            </button>
+                            <button type="button" class="btn btn-outline-secondary" id="transBtn">
+                                Trans
+                            </button>
+                        </div>
+                        <div class="text-center mt-3">
+                            <div id="exampleSentence" style="display:none; color:#2c3e50; font-size:1.1rem;"></div>
+                            <div id="translationSentence" style="display:none; color:#0d6efd; font-size:1.1rem;"></div>
+                        </div>
+                    </div>
+                <!--{% endif %}-->
+            </div>
+
+            <!-- Show Answer Button -->
+            <div class="text-center mb-5">
+                <button onclick="showAnswer()" 
+                        class="btn btn-primary btn-lg px-5 py-3 rounded-pill shadow-sm" 
+                        id="showAnswerBtn"
+                        style="min-width: 200px; background: #2c3e50; border: none;">
+                    <span class="fw-bold">Show Answer</span>
+                </button>
+            </div>
+
+            <!-- Review Buttons -->
+            <form method="post" id="reviewForm" style="display: none;">
+                <!--{% csrf_token %}-->
+                <input type="hidden" name="flashcard_id" value="{{ flashcard.pk }}">
+                
+                <div class="d-flex justify-content-center gap-3">
+                    <button type="submit" name="interval" value="again" 
+                            class="review-btn btn-outline-danger"
+                            onclick="setRemembered(false)">
+                        <span class="d-block fw-bold">＜10m</span>
+                        <small class="d-block opacity-75">Again</small>
+                    </button>
+                    
+                    <button type="submit" name="interval" value="hard" 
+                            class="review-btn btn-outline-warning"
+                            onclick="setRemembered(false)">
+                        <span class="d-block fw-bold">＜15m</span>
+                        <small class="d-block opacity-75">Hard</small>
+                    </button>
+                    
+                    <button type="submit" name="interval" value="good" 
+                            class="review-btn btn-outline-success"
+                            onclick="setRemembered(true)">
+                        <span class="d-block fw-bold">1d</span>
+                        <small class="d-block opacity-75">Good</small>
+                    </button>
+                    
+                    <button type="submit" name="interval" value="easy" 
+                            class="review-btn btn-outline-primary"
+                            onclick="setRemembered(true)">
+                        <span class="d-block fw-bold">2d</span>
+                        <small class="d-block opacity-75">Easy</small>
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Stats -->
+    <div class="text-center mt-5">
+        <div class="d-inline-flex gap-4 px-4 py-2 rounded-pill bg-light shadow-sm">
+            <span class="text-muted">
+                <strong class="text-dark">{{ total_due }}</strong> New
+            </span>
+            <span class="text-muted">
+                <strong class="text-dark">{{ reviewed_today }}</strong> Learning
+            </span>
+            <span class="text-muted">
+                <strong class="text-dark">{{ cards_remaining_today }}</strong> Due
+            </span>
+        </div>
+    </div>
+</div>
+<!--{% endblock %}
+
+{% block extra_js %}-->
+<script>
+function showAnswer() {
+    const translation = document.getElementById('translation');
+    translation.style.display = 'block';
+    translation.classList.add('fade-in');
+    document.getElementById('showAnswerBtn').style.display = 'none';
+    document.getElementById('reviewForm').style.display = 'block';
+}
+
+function setRemembered(remembered) {
+    const form = document.getElementById('reviewForm');
+    const input = document.createElement('input');
+    input.type = 'hidden';
+    input.name = 'remembered';
+    input.value = remembered;
+    form.appendChild(input);
+}
+
+// Keyboard shortcuts
+document.addEventListener('keydown', function(e) {
+    if (document.getElementById('reviewForm').style.display === 'none') {
+        if (e.key === ' ' || e.key === 'Enter') {
+            e.preventDefault();
+            showAnswer();
+        }
+    } else {
+        switch(e.key) {
+            case '1':
+                document.querySelector('[value="again"]').click();
+                break;
+            case '2':
+                document.querySelector('[value="hard"]').click();
+                break;
+            case '3':
+                document.querySelector('[value="good"]').click();
+                break;
+            case '4':
+                document.querySelector('[value="easy"]').click();
+                break;
+        }
+    }
+});
+
+document.addEventListener('DOMContentLoaded', function() {
+    const examBtn = document.getElementById('examBtn');
+    const transBtn = document.getElementById('transBtn');
+    const exampleSentence = document.getElementById('exampleSentence');
+    const translationSentence = document.getElementById('translationSentence');
+    const contextSentence = "{{ flashcard.word_entry.context_sentence|escapejs|default:'' }}";
+
+    if (examBtn) {
+        examBtn.addEventListener('mouseenter', function() {
+            if (contextSentence) {
+                // Highlight the flashcard word in the sentence
+                const word = "{{ flashcard.word_entry.original_text|escapejs }}";
+                // Regex for whole word, case-insensitive
+                const regex = new RegExp('\\b' + word.replace(/[.*+?^${}()|[\]\\]/g, '\\$&') + '\\b', 'gi');
+                const highlighted = contextSentence.replace(regex, function(match) {
+                    return `<span style='color:#0d6efd;font-weight:bold;'>${match}</span>`;
+                });
+                exampleSentence.innerHTML = highlighted;
+            } else {
+                exampleSentence.textContent = 'No example found';
+            }
+            exampleSentence.style.display = 'block';
+        });
+        examBtn.addEventListener('mouseleave', function() {
+            exampleSentence.style.display = 'none';
+        });
+    }
+    if (transBtn && contextSentence) {
+        transBtn.addEventListener('mouseenter', function() {
+            translationSentence.textContent = 'Translating...';
+            translationSentence.style.display = 'block';
+            fetch('/api/translate_sentence/', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRFToken': document.querySelector('[name=csrfmiddlewaretoken]').value
+                },
+                body: JSON.stringify({ sentence: contextSentence })
+            })
+            .then(response => response.json())
+            .then(data => {
+                translationSentence.textContent = data.translation || 'Translation failed.';
+            })
+            .catch(() => {
+                translationSentence.textContent = 'Translation failed.';
+            });
+        });
+        transBtn.addEventListener('mouseleave', function() {
+            translationSentence.style.display = 'none';
+        });
+    }
+});
+</script>
+<!--{% endblock %}-->  
